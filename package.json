@@ -1,0 +1,20 @@
+{
+  "name": "shift-adapters",
+  "version": "0.0.1",
+  "scripts": {
+    "docs": "npx hardhat docgen",
+    "test": "npx hardhat test",
+    "lint": "npx solhint 'contracts/**/*.sol'"
+  },
+  "dependencies": {
+    "@arbitrum/nitro-contracts": "^1.1.0",
+    "@openzeppelin/contracts": "^5.0.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "hardhat": "^2.19.0",
+    "hardhat-deal": "^3.0.1",
+    "solhint": "^4.0.0",
+    "solidity-docgen": "^0.6.0-beta.36"
+  }
+}
