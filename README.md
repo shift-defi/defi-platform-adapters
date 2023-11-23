@@ -1,4 +1,4 @@
-# **Read-only repo**
+**NB:** This is readonly copy of repository, synced from private repo
 # Defi platform adapters
 
 Set of smart contract adapters (for bridge token with message, etc)  
