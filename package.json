@@ -1,5 +1,5 @@
 {
-  "name": "shift-adapters",
+  "name": "@shift-defi/adapters",
   "version": "0.0.1",
   "scripts": {
     "docs": "npx hardhat docgen",
