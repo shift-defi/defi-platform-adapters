@@ -16,13 +16,17 @@ describe("CCTP bridge adapter", function () {
     it("Should start birdge process USDC from Ethereum to Arbitrum", async function () {
         await reset(process.env.ETHEREUM_RPC!)
 
+        const [sender] = await ethers.getSigners()
+        const usdc = await ethers.getContractAt("IERC20", USDC_ETHEREUM)
         const circleCctpBridgeAdapter = await ethers.deployContract("CircleCctpBridgeAdapter", [
             USDC_ETHEREUM,
             TOKEN_MESSENGER_ETHEREUM,
             MESSAGE_TRANSMITTER_ETHEREUM,
             [{ chainId: 42161, domain: 3 }]
         ])
-        await deal(USDC_ETHEREUM, await circleCctpBridgeAdapter.getAddress(), USDC_AMOUNT)
+
+        await usdc.connect(sender).approve(await circleCctpBridgeAdapter.getAddress(), USDC_AMOUNT)
+        await deal(USDC_ETHEREUM, sender, USDC_AMOUNT)
 
         const token = {
             address_: USDC_ETHEREUM,

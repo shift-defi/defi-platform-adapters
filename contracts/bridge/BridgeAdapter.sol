@@ -11,6 +11,8 @@ import {ITokenWithMessageReceiver} from "./ITokenWithMessageReceiver.sol";
 abstract contract BridgeAdapter is IBridgeAdapter {
     using SafeERC20 for IERC20;
 
+    uint256 _nonce;
+
     /// @inheritdoc IBridgeAdapter
     mapping(bytes32 traceId => uint256 blockNumber) public bridgeFinishedBlock;
 
@@ -19,13 +21,14 @@ abstract contract BridgeAdapter is IBridgeAdapter {
         Token calldata token,
         Message calldata message
     ) external payable returns (bytes32 traceId) {
+        IERC20(token.address_).safeTransferFrom(
+            msg.sender,
+            address(this),
+            token.amount
+        );
+
         traceId = keccak256(
-            abi.encodePacked(
-                address(this),
-                msg.sender,
-                msg.data,
-                block.timestamp // solhint-disable-line not-rely-on-time
-            )
+            abi.encodePacked(address(this), block.chainid, _nonce++)
         );
         _startBridge(token, message, traceId);
     }

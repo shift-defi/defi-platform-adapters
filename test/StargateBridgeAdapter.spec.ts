@@ -13,11 +13,15 @@ describe("Stargate bridge adapter", function () {
     it("Should start birdge process USDC from Ethereum to Polygon", async function () {
         await reset(process.env.ETHEREUM_RPC!)
 
+        const [sender] = await ethers.getSigners()
+        const usdc = await ethers.getContractAt("IERC20", USDC_ETHEREUM)
         const stargateBridgeAdapter = await ethers.deployContract("StargateBridgeAdapter", [
             STARGATE_ETHEREUM,
             [{ chainId: 137, lzChainId: 109 }]
         ]);
-        await deal(USDC_ETHEREUM, await stargateBridgeAdapter.getAddress(), USDC_AMOUNT)
+
+        await usdc.connect(sender).approve(await stargateBridgeAdapter.getAddress(), USDC_AMOUNT)
+        await deal(USDC_ETHEREUM, sender, USDC_AMOUNT)
 
         const token = {
             address_: USDC_ETHEREUM,
